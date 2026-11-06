@@ -41,7 +41,7 @@
 מריצים ב-PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/dor2500/smart-tv-desktop-remote/main/install.ps1 | iex
 ```
 
 הפקודה מתקינה את הגרסה האחרונה למשתמש שלך, מוסיפה קיצור דרך לתפריט התחל ופותחת את האפליקציה. לא צריך הרשאות מנהל.
@@ -103,7 +103,7 @@ LG לא מתעדים רשמית את הפרוטוקול שהאפליקציה מ�
 ### אפשרות 1: פקודת PowerShell (מומלץ)
 
 ```powershell
-irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/dor2500/smart-tv-desktop-remote/main/install.ps1 | iex
 ```
 
 הפקודה:
@@ -118,7 +118,7 @@ irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.p
 
 ### אפשרות 2: הורדת הקובץ
 
-1. פתח את [הגרסה האחרונה](https://github.com/dor2500/universal-tv-remote/releases/latest).
+1. פתח את [הגרסה האחרונה](https://github.com/dor2500/smart-tv-desktop-remote/releases/latest).
 2. הורד את `Smart.TV.Desktop.Remote.0.3.0.exe`.
 3. הפעל אותו. לא צריך התקנה.
 
@@ -129,11 +129,11 @@ irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.p
 צריך [Node.js](https://nodejs.org) ו-[Git](https://git-scm.com).
 
 ```bash
-git clone https://github.com/dor2500/universal-tv-remote.git
+git clone https://github.com/dor2500/smart-tv-desktop-remote.git
 ```
 
 ```bash
-cd universal-tv-remote
+cd smart-tv-desktop-remote
 ```
 
 ```bash

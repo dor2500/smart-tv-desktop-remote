@@ -34,11 +34,11 @@
 צריך [Node.js](https://nodejs.org), את [כלי webOS](https://webostv.developer.lge.com/develop/tools/cli-installation) מוגדרים מול טלוויזיה במצב מפתחים, וחשבון [Cloudflare](https://dash.cloudflare.com/sign-up) חינמי.
 
 ```bash
-git clone https://github.com/dor2500/universal-tv-remote.git
+git clone https://github.com/dor2500/smart-tv-desktop-remote.git
 ```
 
 ```bash
-cd universal-tv-remote
+cd smart-tv-desktop-remote
 ```
 
 ```bash

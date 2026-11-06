@@ -1,5 +1,5 @@
 # Installs the latest Smart TV Desktop Remote for the current user. No administrator rights needed.
-#   irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/dor2500/smart-tv-desktop-remote/main/install.ps1 | iex
 # Messages stay in English: Windows PowerShell can garble non-ASCII text in a piped script.
 & {
     $ErrorActionPreference = 'Stop'
@@ -10,7 +10,7 @@
     $shortcut = Join-Path ([Environment]::GetFolderPath('Programs')) 'Smart TV Desktop Remote.lnk'
 
     Write-Host 'Looking for the latest release...'
-    $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/dor2500/universal-tv-remote/releases/latest' -Headers @{ 'User-Agent' = 'smart-tv-desktop-remote-installer' }
+    $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/dor2500/smart-tv-desktop-remote/releases/latest' -Headers @{ 'User-Agent' = 'smart-tv-desktop-remote-installer' }
     $asset = $release.assets | Where-Object { $_.name -like '*.exe' } | Select-Object -First 1
     if (-not $asset) { throw "Release $($release.tag_name) has no Windows download." }
 

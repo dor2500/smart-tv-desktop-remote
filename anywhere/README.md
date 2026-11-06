@@ -34,11 +34,11 @@ An app on the TV shows an ID and a password that change every week. Type them in
 You need [Node.js](https://nodejs.org), the [webOS CLI](https://webostv.developer.lge.com/develop/tools/cli-installation) set up with your TV in Developer Mode, and a free [Cloudflare](https://dash.cloudflare.com/sign-up) account.
 
 ```bash
-git clone https://github.com/dor2500/universal-tv-remote.git
+git clone https://github.com/dor2500/smart-tv-desktop-remote.git
 ```
 
 ```bash
-cd universal-tv-remote
+cd smart-tv-desktop-remote
 ```
 
 ```bash

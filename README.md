@@ -41,7 +41,7 @@ The app is available in English and Hebrew. The technical details are in [How it
 Run this in PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/dor2500/smart-tv-desktop-remote/main/install.ps1 | iex
 ```
 
 This installs the latest version for your user, adds a Start menu shortcut and opens the app. Administrator rights are not needed.
@@ -103,7 +103,7 @@ LG does not officially document the protocol this app uses, so a firmware update
 ### Option 1: PowerShell command (recommended)
 
 ```powershell
-irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/dor2500/smart-tv-desktop-remote/main/install.ps1 | iex
 ```
 
 The command:
@@ -118,7 +118,7 @@ Run the same command again to update. Close the app first. It also replaces a ve
 
 ### Option 2: Download the file
 
-1. Open the [latest release](https://github.com/dor2500/universal-tv-remote/releases/latest).
+1. Open the [latest release](https://github.com/dor2500/smart-tv-desktop-remote/releases/latest).
 2. Download `Smart.TV.Desktop.Remote.0.3.0.exe`.
 3. Run it. It does not need installing.
 
@@ -129,11 +129,11 @@ The file is not code-signed, so Windows may show a warning. To continue, select 
 You need [Node.js](https://nodejs.org) and [Git](https://git-scm.com).
 
 ```bash
-git clone https://github.com/dor2500/universal-tv-remote.git
+git clone https://github.com/dor2500/smart-tv-desktop-remote.git
 ```
 
 ```bash
-cd universal-tv-remote
+cd smart-tv-desktop-remote
 ```
 
 ```bash
