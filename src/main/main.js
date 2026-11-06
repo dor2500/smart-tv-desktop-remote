@@ -8,9 +8,14 @@ const store = require('./store');
 // Test hook: run against the simulated TVs in tests/ instead of real ones.
 const TEST_CONFIG = process.env.TV_TEST_CONFIG ? JSON.parse(process.env.TV_TEST_CONFIG) : {};
 
-// Before the rename this app kept its data, including the keys that decrypt saved pairings, in another folder.
-const LEGACY_DATA = path.join(app.getPath('appData'), 'lg-tv-remote');
-if (!app.commandLine.hasSwitch('user-data-dir') && fs.existsSync(LEGACY_DATA)) app.setPath('userData', LEGACY_DATA);
+// Earlier versions (LG TV Remote, then Universal TV Remote) kept their data, including the keys that decrypt saved
+// pairings, in other folders. Those keys only work from their own folder, so keep using it instead of copying.
+const LEGACY_DATA = ['lg-tv-remote', 'Universal TV Remote', 'universal-tv-remote'].map((name) => path.join(app.getPath('appData'), name));
+const hasSavedTvs = (dir) => fs.existsSync(path.join(dir, 'tvs.json'));
+if (!app.commandLine.hasSwitch('user-data-dir') && !hasSavedTvs(app.getPath('userData'))) {
+  const legacy = LEGACY_DATA.find(hasSavedTvs);
+  if (legacy) app.setPath('userData', legacy);
+}
 
 let win = null;
 let tv = null;
@@ -35,7 +40,7 @@ function createWindow() {
     minHeight: 660,
     backgroundColor: '#0d0f12',
     autoHideMenuBar: true,
-    title: 'Universal TV Remote',
+    title: 'Smart TV Desktop Remote',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

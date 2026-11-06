@@ -1,6 +1,8 @@
-# Universal TV Remote
+# Smart TV Desktop Remote
 
 [English](README.md) | **עברית**
+
+*לשעבר Universal TV Remote. היא שולטת בשש פלטפורמות טלוויזיה ברשת המקומית, לא בכל טלוויזיה, ולכן השם החדש מתאר אותה במדויק.*
 
 אפליקציית Windows לשליטה בטלוויזיה החכמה שלך מהמחשב: LG, Samsung, Android TV ו-Google TV (Sony, Philips, TCL, Xiaomi ועוד), Roku, Vizio ו-Sony BRAVIA. יש בה שלט על המסך, אפליקציות, מקורות, הקלדה ועוצמת קול. בטלוויזיות LG היא גם מציגה את מסך הטלוויזיה ושולטת בסמן עכבר.
 
@@ -108,8 +110,8 @@ irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.p
 
 1. מוצאת ב-GitHub את הגרסה האחרונה.
 2. מורידה את האפליקציה ובודקת את גודל הקובץ, וגם את ה-checksum כש-GitHub מספק אותו.
-3. שומרת אותה ב-`%LOCALAPPDATA%\Programs\Universal TV Remote`.
-4. מוסיפה קיצור דרך בשם "Universal TV Remote" לתפריט התחל.
+3. שומרת אותה ב-`%LOCALAPPDATA%\Programs\Smart TV Desktop Remote`.
+4. מוסיפה קיצור דרך בשם "Smart TV Desktop Remote" לתפריט התחל.
 5. פותחת את האפליקציה.
 
 לעדכון מריצים את אותה פקודה שוב, אחרי שסוגרים את האפליקציה. היא גם מחליפה גרסה שהותקנה בשם הישן, LG TV Remote, ושומרת על הטלוויזיות השמורות. אפשר [לקרוא את הסקריפט](install.ps1) לפני ההרצה.
@@ -117,7 +119,7 @@ irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.p
 ### אפשרות 2: הורדת הקובץ
 
 1. פתח את [הגרסה האחרונה](https://github.com/dor2500/universal-tv-remote/releases/latest).
-2. הורד את `Universal.TV.Remote.0.2.0.exe`.
+2. הורד את `Smart.TV.Desktop.Remote.0.2.0.exe`.
 3. הפעל אותו. לא צריך התקנה.
 
 הקובץ לא חתום, ולכן Windows עלול להציג אזהרה. כדי להמשיך, בחר "מידע נוסף" ואז "הפעל בכל זאת".
@@ -152,10 +154,10 @@ npm start
 הפקודה הזו מסירה אפליקציה שהותקנה בפקודת ה-PowerShell:
 
 ```powershell
-Remove-Item -Recurse "$env:LOCALAPPDATA\Programs\Universal TV Remote"; Remove-Item "$([Environment]::GetFolderPath('Programs'))\Universal TV Remote.lnk"
+Remove-Item -Recurse "$env:LOCALAPPDATA\Programs\Smart TV Desktop Remote"; Remove-Item "$([Environment]::GetFolderPath('Programs'))\Smart TV Desktop Remote.lnk"
 ```
 
-כדי למחוק גם טלוויזיות שמורות ומפתחות חיבור, מחק את `%APPDATA%\universal-tv-remote`. אם התקנת קודם גרסה בשם LG TV Remote, הנתונים נמצאים ב-`%APPDATA%\lg-tv-remote`.
+כדי למחוק גם טלוויזיות שמורות ומפתחות חיבור, מחק את `%APPDATA%\Smart TV Desktop Remote`. אם התקנת קודם גרסה ישנה (בשם LG TV Remote או Universal TV Remote), האפליקציה ממשיכה להשתמש בתיקייה שלה: `%APPDATA%\lg-tv-remote`, `%APPDATA%\Universal TV Remote` או `%APPDATA%\universal-tv-remote`.
 
 ## חיבור בפעם הראשונה
 

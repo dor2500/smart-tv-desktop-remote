@@ -131,13 +131,27 @@ async function startFakeSony({ psk = 'secret' } = {}) {
   return { log, config: { base: `http://127.0.0.1:${server.address().port}`, pollMs: 50 }, close: () => closeServer(server) };
 }
 
-async function startFakeAndroidTv({ code = null } = {}) {
+// clockOffsetMs sets the TV's clock relative to this computer. Like a real TV, it refuses a client certificate
+// that is not yet valid by its own clock.
+async function startFakeAndroidTv({ code = null, clockOffsetMs = 0 } = {}) {
   const log = [];
   const { private: key, cert } = pems();
   const trusted = new Set();
   const sockets = new Set();
   const options = { key, cert, requestCert: true, rejectUnauthorized: false };
-  const track = (socket) => { sockets.add(socket); socket.on('close', () => sockets.delete(socket)); socket.on('error', () => {}); };
+  const certValid = (socket) => {
+    const peer = new crypto.X509Certificate(socket.getPeerCertificate().raw);
+    return Date.parse(peer.validFrom) <= Date.now() + clockOffsetMs;
+  };
+  const track = (socket) => {
+    sockets.add(socket);
+    socket.on('close', () => sockets.delete(socket));
+    socket.on('error', () => {});
+    if (!certValid(socket)) {
+      log.push({ type: 'cert-not-yet-valid' });
+      socket.destroy();
+    }
+  };
   const fingerprint = (socket) => socket.getPeerCertificate().fingerprint256;
   const clientPem = (socket) => new crypto.X509Certificate(socket.getPeerCertificate().raw).toString();
 

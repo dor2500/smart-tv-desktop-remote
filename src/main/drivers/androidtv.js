@@ -8,8 +8,11 @@ const { BaseDriver, friendly, mapButton } = require('./common');
 const PAIRING_PORT = 6467;
 const REMOTE_PORT = 6466;
 const HANDSHAKE_TIMEOUT_MS = 6000;
+// Each pairing step waits for the TV, which has to bring up its code dialog. androidtvremote2 allows 10 seconds.
+const PAIRING_STEP_TIMEOUT_MS = 10000;
 const IDLE_TIMEOUT_MS = 16000; // The TV pings every 5 seconds and closes after 3 unanswered pings.
-const CLIENT_NAME = 'Universal TV Remote';
+const CLIENT_NAME = 'Smart TV Desktop Remote';
+const CERT_NAME = 'atvremote';
 
 // Feature flags agreed with the TV: ping, key, IME, power, volume, app link.
 const FEATURES = 1 | 2 | 4 | 32 | 64 | 512;
@@ -151,13 +154,30 @@ function pairingSecret(clientPem, serverPem, code) {
   return hash.digest();
 }
 
+// Matches the certificate androidtvremote2 makes (CA basic constraint, DNS alt name), which real TVs are known to
+// accept. It starts two days in the past: many TVs' clocks run behind until they sync, and a certificate that is
+// "not yet valid" on the TV is refused during the handshake.
 function createIdentity() {
-  const pems = selfsigned.generate([{ name: 'commonName', value: 'universal-tv-remote' }], { days: 3650, keySize: 2048, algorithm: 'sha256' });
+  const notBeforeDate = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
+  const pems = selfsigned.generate([{ name: 'commonName', value: CERT_NAME }], {
+    days: 3650,
+    keySize: 2048,
+    algorithm: 'sha256',
+    notBeforeDate,
+    extensions: [
+      { name: 'basicConstraints', cA: true },
+      { name: 'keyUsage', digitalSignature: true, keyEncipherment: true, keyCertSign: true },
+      { name: 'extKeyUsage', clientAuth: true, serverAuth: true },
+      { name: 'subjectAltName', altNames: [{ type: 2, value: CERT_NAME }] },
+    ],
+  });
   return { cert: pems.cert, key: pems.private };
 }
 
+// Errors that mean the TV is off or out of reach, as opposed to the TV refusing this certificate.
 function isNetworkError(err) {
-  return ['ECONNREFUSED', 'EHOSTUNREACH', 'ENETUNREACH', 'ETIMEDOUT', 'CONNECT_TIMEOUT'].includes(err.code);
+  return ['ECONNREFUSED', 'EHOSTUNREACH', 'EHOSTDOWN', 'ENETUNREACH', 'ENOTFOUND', 'EAI_AGAIN', 'ETIMEDOUT', 'CONNECT_TIMEOUT']
+    .includes(err.code);
 }
 
 function outer(fields) {
@@ -233,7 +253,7 @@ class AndroidTvDriver extends BaseDriver {
     });
     try {
       await new Promise((resolve, reject) => {
-        const timer = setTimeout(() => reject(friendly('TIMEOUT', 'The TV did not answer in time')), HANDSHAKE_TIMEOUT_MS);
+        const timer = setTimeout(() => reject(friendly('TIMEOUT', 'The TV did not answer in time')), PAIRING_STEP_TIMEOUT_MS);
         socket.on('error', reject);
         socket.on('close', () => reject(friendly('PAIRING_REJECTED', 'The TV ended the pairing')));
         onFrames(socket, (msg) => {
@@ -271,7 +291,7 @@ class AndroidTvDriver extends BaseDriver {
     const secret = pairingSecret(this.identity.cert, serverPem, code);
     if (secret[0] !== parseInt(code.slice(0, 2), 16)) return Promise.reject(friendly('BAD_PIN', 'The code is not correct'));
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(friendly('TIMEOUT', 'The TV did not answer in time')), HANDSHAKE_TIMEOUT_MS);
+      const timer = setTimeout(() => reject(friendly('TIMEOUT', 'The TV did not answer in time')), PAIRING_STEP_TIMEOUT_MS);
       this.secretWaiter = {
         resolve: () => { clearTimeout(timer); this.secretWaiter = null; resolve(); },
         reject: (err) => { clearTimeout(timer); this.secretWaiter = null; reject(err); },
