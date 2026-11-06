@@ -3,7 +3,7 @@
 const WebSocket = require('ws');
 const { BaseDriver, friendly, httpRequest, mapButton } = require('./common');
 
-const CLIENT_NAME = 'Universal TV Remote';
+const CLIENT_NAME = 'Smart TV Desktop Remote';
 const CONNECT_TIMEOUT_MS = 90000;
 const APPS_TIMEOUT_MS = 6000;
 

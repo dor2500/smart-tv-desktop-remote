@@ -1,6 +1,8 @@
-# Universal TV Remote
+# Smart TV Desktop Remote
 
 **English** | [עברית](README.he.md)
+
+*Formerly Universal TV Remote. It controls six TV platforms over the local network, not every TV, so the name now says what it is.*
 
 A Windows desktop app that controls your smart TV from your computer: LG, Samsung, Android TV and Google TV (Sony, Philips, TCL, Xiaomi and others), Roku, Vizio and Sony BRAVIA. It offers an on-screen remote, apps, inputs, typing and volume. On LG TVs it also shows the TV's screen in the app and controls a mouse pointer.
 
@@ -108,8 +110,8 @@ The command:
 
 1. Finds the latest release on GitHub.
 2. Downloads the app and checks the file's size and, when GitHub provides one, its checksum.
-3. Saves it to `%LOCALAPPDATA%\Programs\Universal TV Remote`.
-4. Adds an "LG TV Remote" shortcut to the Start menu.
+3. Saves it to `%LOCALAPPDATA%\Programs\Smart TV Desktop Remote`.
+4. Adds a "Smart TV Desktop Remote" shortcut to the Start menu.
 5. Opens the app.
 
 Run the same command again to update. Close the app first. It also replaces a version installed under the old name, LG TV Remote, and keeps your saved TVs. You can [read the script](install.ps1) before running it.
@@ -117,7 +119,7 @@ Run the same command again to update. Close the app first. It also replaces a ve
 ### Option 2: Download the file
 
 1. Open the [latest release](https://github.com/dor2500/universal-tv-remote/releases/latest).
-2. Download `Universal.TV.Remote.0.2.0.exe`.
+2. Download `Smart.TV.Desktop.Remote.0.2.0.exe`.
 3. Run it. It does not need installing.
 
 The file is not code-signed, so Windows may show a warning. To continue, select **More info**, then **Run anyway**.
@@ -152,10 +154,10 @@ If the app says Electron was not installed correctly (this happened on Node 26):
 This removes the app installed with the PowerShell command:
 
 ```powershell
-Remove-Item -Recurse "$env:LOCALAPPDATA\Programs\Universal TV Remote"; Remove-Item "$([Environment]::GetFolderPath('Programs'))\Universal TV Remote.lnk"
+Remove-Item -Recurse "$env:LOCALAPPDATA\Programs\Smart TV Desktop Remote"; Remove-Item "$([Environment]::GetFolderPath('Programs'))\Smart TV Desktop Remote.lnk"
 ```
 
-To also remove saved TVs and pairing keys, delete `%APPDATA%\universal-tv-remote`. If you first installed a version called LG TV Remote, your data is in `%APPDATA%\lg-tv-remote` instead.
+To also remove saved TVs and pairing keys, delete `%APPDATA%\Smart TV Desktop Remote`. If you first installed an older version (called LG TV Remote or Universal TV Remote), the app keeps using that version's folder instead: `%APPDATA%\lg-tv-remote`, `%APPDATA%\Universal TV Remote` or `%APPDATA%\universal-tv-remote`.
 
 ## Connecting for the first time
 

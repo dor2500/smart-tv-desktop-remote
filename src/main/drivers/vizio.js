@@ -2,8 +2,9 @@
 // Based on https://github.com/raman325/pyvizio and https://github.com/exiva/Vizio_SmartCast_API
 const { BaseDriver, friendly, httpRequest, mapButton } = require('./common');
 
+// The TV ties its pairing token to this ID, so it keeps the app's old name: changing it would unpair every Vizio TV.
 const DEVICE_ID = 'universal-tv-remote';
-const DEVICE_NAME = 'Universal TV Remote';
+const DEVICE_NAME = 'Smart TV Desktop Remote';
 const PATHS = {
   inputs: '/menu_native/dynamic/tv_settings/devices/name_input',
   currentInput: '/menu_native/dynamic/tv_settings/devices/current_input',

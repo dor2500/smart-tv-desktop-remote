@@ -27,7 +27,7 @@ test('samsung: pairs, keeps its token, sends keys, text and apps', async () => {
   await tv.connect();
   assert.deepEqual(pairing, ['PROMPT']);
   assert.deepEqual(keys, ['samsung-token']);
-  assert.equal(Buffer.from(fake.log[0].name, 'base64').toString(), 'Universal TV Remote');
+  assert.equal(Buffer.from(fake.log[0].name, 'base64').toString(), 'Smart TV Desktop Remote');
 
   await tv.button('BACK');
   assert.deepEqual(await tv.listApps(), [{ id: '11101200001', title: 'Netflix' }, { id: 'org.tizen.browser', title: 'Internet' }]);
@@ -189,6 +189,25 @@ test('sony: asks for the key, rejects a wrong one, then uses IRCC and the REST A
   await fake.close();
 });
 
+test('android tv: pairs with a TV whose clock is a day behind', async () => {
+  const fake = await startFakeAndroidTv({ clockOffsetMs: -24 * 60 * 60 * 1000 });
+  const tv = createDriver('androidtv', { host: '127.0.0.1', config: { androidtv: fake.config } });
+  const asked = once(tv, 'pairing');
+  const connected = tv.connect();
+  assert.equal(await asked, 'CODE');
+  await tv.submitPin(fake.code);
+  await connected;
+  assert.ok(!fake.log.some((e) => e.type === 'cert-not-yet-valid'));
+  tv.close();
+  await fake.close();
+});
+
+test('discovery asks for unicast mDNS answers', () => {
+  const query = mdnsQuery('_androidtvremote2._tcp.local');
+  assert.equal(query.readUInt16BE(query.length - 4), 12); // PTR
+  assert.equal(query.readUInt16BE(query.length - 2), 0x8001); // IN, unicast response requested
+});
+
 test('android tv: pairs with a code, reconnects without one, and sends commands', async () => {
   const fake = await startFakeAndroidTv();
   const config = { androidtv: fake.config };
@@ -198,7 +217,7 @@ test('android tv: pairs with a code, reconnects without one, and sends commands'
   const asked = once(tv, 'pairing');
   const connected = tv.connect();
   assert.equal(await asked, 'CODE');
-  assert.deepEqual(fake.log[0], { type: 'pair-request', service: 'atvremote', client: 'Universal TV Remote' });
+  assert.deepEqual(fake.log[0], { type: 'pair-request', service: 'atvremote', client: 'Smart TV Desktop Remote' });
 
   await assert.rejects(tv.submitPin('xyz'), { code: 'BAD_PIN' });
   const wrongFirstByte = `${fake.code.startsWith('00') ? '11' : '00'}${fake.code.slice(2)}`;

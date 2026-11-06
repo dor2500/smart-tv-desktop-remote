@@ -1,7 +1,7 @@
 {
-  "name": "universal-tv-remote",
+  "name": "smart-tv-desktop-remote",
   "version": "0.2.0",
-  "description": "Windows desktop remote control for LG, Samsung, Android TV, Google TV, Roku, Vizio and Sony TVs",
+  "description": "Windows desktop remote for smart TVs on your local network: LG webOS, Samsung Tizen, Android TV / Google TV, Roku, Vizio SmartCast and Sony BRAVIA",
   "main": "src/main/main.js",
   "private": true,
   "author": "dor2500",
@@ -25,8 +25,8 @@
     "playwright-core": "^1.49.1"
   },
   "build": {
-    "appId": "com.dor2500.lgtvremote",
-    "productName": "Universal TV Remote",
+    "appId": "com.dor2500.smarttvdesktopremote",
+    "productName": "Smart TV Desktop Remote",
     "files": [
       "src/**/*"
     ],

@@ -40,8 +40,9 @@ function parseSsdp(text) {
 
 function mdnsQuery(service) {
   const labels = service.split('.').map((label) => Buffer.concat([Buffer.from([label.length]), Buffer.from(label)]));
-  // One question, type PTR, class IN.
-  return Buffer.concat([Buffer.from([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]), ...labels, Buffer.from([0, 0, 12, 0, 1])]);
+  // One question, type PTR, class IN with the "unicast response" bit set (0x8001), so a responder that honours it
+  // answers this socket directly. Responders that don't still answer by multicast, which listenMulticast() hears.
+  return Buffer.concat([Buffer.from([0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]), ...labels, Buffer.from([0, 0, 12, 0x80, 1])]);
 }
 
 function readName(buffer, start) {
@@ -137,9 +138,52 @@ function searchFrom(address, found, timeoutMs) {
   });
 }
 
+// Android TV (and most mDNS responders, including Android's own) answer a query by multicast to 224.0.0.251:5353,
+// not to the port the query came from. Without listening there, Android TVs never show up in a scan.
+function listenMulticast(addresses, found, timeoutMs) {
+  return new Promise((resolve) => {
+    const socket = dgram.createSocket({ type: 'udp4', reuseAddr: true });
+    const done = () => {
+      try {
+        socket.close();
+      } catch {
+        // Already closed.
+      }
+      resolve();
+    };
+    socket.on('error', done);
+    socket.on('message', (message, rinfo) => {
+      for (const tv of parseMdns(message)) record(found, rinfo.address, tv);
+    });
+    socket.bind(5353, () => {
+      for (const address of addresses) {
+        try {
+          socket.addMembership(MDNS_ADDRESS, address);
+        } catch {
+          // This adapter can't join the group (for example a VPN adapter); the others still can.
+        }
+      }
+      // Ask from 5353 too: a query from that port is a regular mDNS query, which every responder answers.
+      for (const address of addresses) {
+        try {
+          socket.setMulticastInterface(address);
+          for (const { service } of MDNS_TARGETS) socket.send(mdnsQuery(service), 5353, MDNS_ADDRESS, () => {});
+        } catch {
+          // Sending on this adapter failed; the per-adapter search still runs.
+        }
+      }
+      setTimeout(done, timeoutMs);
+    });
+  });
+}
+
 async function discover(timeoutMs = 3000) {
   const found = new Map();
-  await Promise.all(localAddresses().map((address) => searchFrom(address, found, timeoutMs)));
+  const addresses = localAddresses();
+  await Promise.all([
+    ...addresses.map((address) => searchFrom(address, found, timeoutMs)),
+    listenMulticast(addresses, found, timeoutMs),
+  ]);
   return [...found.values()];
 }
 

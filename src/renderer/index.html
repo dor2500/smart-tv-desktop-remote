@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src data:">
-  <title>Universal TV Remote</title>
+  <title>Smart TV Desktop Remote</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -98,7 +98,7 @@
             <ul id="tv-list" class="tv-list"></ul>
             <p class="message" id="connect-msg" role="status"></p>
             <div class="inline" id="pin-row" hidden>
-              <input id="pin" dir="ltr" inputmode="numeric" data-i18n-placeholder="pinPlaceholder" data-i18n-aria="pinCode">
+              <input id="pin" dir="ltr" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" data-i18n-placeholder="pinPlaceholder" data-i18n-aria="pinCode">
               <button type="button" class="primary" id="pin-send" data-i18n="sendPin"></button>
             </div>
           </form>
