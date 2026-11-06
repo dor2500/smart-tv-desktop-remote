@@ -119,7 +119,7 @@ irm https://raw.githubusercontent.com/dor2500/universal-tv-remote/main/install.p
 ### אפשרות 2: הורדת הקובץ
 
 1. פתח את [הגרסה האחרונה](https://github.com/dor2500/universal-tv-remote/releases/latest).
-2. הורד את `Smart.TV.Desktop.Remote.0.2.0.exe`.
+2. הורד את `Smart.TV.Desktop.Remote.0.3.0.exe`.
 3. הפעל אותו. לא צריך התקנה.
 
 הקובץ לא חתום, ולכן Windows עלול להציג אזהרה. כדי להמשיך, בחר "מידע נוסף" ואז "הפעל בכל זאת".

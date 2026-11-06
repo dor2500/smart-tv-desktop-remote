@@ -119,7 +119,7 @@ Run the same command again to update. Close the app first. It also replaces a ve
 ### Option 2: Download the file
 
 1. Open the [latest release](https://github.com/dor2500/universal-tv-remote/releases/latest).
-2. Download `Smart.TV.Desktop.Remote.0.2.0.exe`.
+2. Download `Smart.TV.Desktop.Remote.0.3.0.exe`.
 3. Run it. It does not need installing.
 
 The file is not code-signed, so Windows may show a warning. To continue, select **More info**, then **Run anyway**.

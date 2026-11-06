@@ -1,6 +1,6 @@
 {
   "name": "smart-tv-desktop-remote",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Windows desktop remote for smart TVs on your local network: LG webOS, Samsung Tizen, Android TV / Google TV, Roku, Vizio SmartCast and Sony BRAVIA",
   "main": "src/main/main.js",
   "private": true,
